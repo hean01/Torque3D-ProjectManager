@@ -36,13 +36,12 @@ void ProjectList::setParent(QWidget *parent)
 QString ProjectList::getAppPath(QString path)
 {
    QString basePath = QCoreApplication::applicationDirPath();
+
    if(!path.isEmpty())
    {
       basePath = path;
    }
-#ifdef Q_WS_WIN
-   return basePath;
-#endif	
+
 #ifdef Q_WS_MAC
    int appIndex = basePath.lastIndexOf(QString(".app"));
    int basePathIndex = basePath.lastIndexOf("/", appIndex);
@@ -54,8 +53,10 @@ QString ProjectList::getAppPath(QString path)
       QDir::setCurrent(macPath);
    }
 	
-   return macPath;
+   basePath = macPath;
 #endif
+
+   return basePath;
 }
 
 void ProjectList::buildList()
